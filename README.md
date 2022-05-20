@@ -1,8 +1,6 @@
-# qtec_work_demo
+# Here is the project Screen Shots
 
-
-
-## Getting Started
+### I use here provider for state management
 
 
 
