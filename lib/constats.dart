@@ -21,8 +21,8 @@ TextStyle get titleStyle{
 TextStyle get subTitleStyle{
   return GoogleFonts.lato(
       fontSize: 16,
-      fontWeight: FontWeight.normal,
-      color: Colors.black54
+      fontWeight: FontWeight.bold,
+      color: Colors.black87
 
   );
 }
