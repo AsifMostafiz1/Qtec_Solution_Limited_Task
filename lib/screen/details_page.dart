@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:qtec_work_demo/constats.dart';
 import 'package:qtec_work_demo/provider/product_details_provider.dart';
@@ -36,150 +38,186 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       backgroundColor: Constant.primaryColor,
       appBar: buildAppBar(context),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildCarasolSlider(context, provider),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+      body: provider.isLoading == false
+          ? SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        "প্রোডাক্ট নেইমঃ  ",
-                        style: TextStyle(
-                            color: Colors.pink,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20),
-                      ),
-                      Expanded(
-                        child: Container(
-
-                            child: TextField(
-
-                              readOnly: true,
-                              decoration: InputDecoration(
-                                hintText: provider.productDetails!.data!.productName.toString(),
-                                hintStyle: subTitleStyle,
-                                enabledBorder: const UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.transparent)
-                                ),
-                                focusedBorder: const UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.transparent)
+                  buildCarasolSlider(context, provider),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              "প্রোডাক্ট নেইমঃ  ",
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 20),
+                            ),
+                            Expanded(
+                              child: Container(
+                                child: TextField(
+                                  readOnly: true,
+                                  decoration: InputDecoration(
+                                    hintText: provider
+                                        .productDetails!.data!.productName
+                                        .toString(),
+                                    hintStyle: subTitleStyle,
+                                    enabledBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent)),
+                                    focusedBorder: const UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent)),
+                                  ),
                                 ),
                               ),
                             ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const Text(
-                        "ব্রান্ডঃ ",
-                        style: TextStyle(
-                            color: Colors.pink,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16),
-                      ),
-                      Text(
-                        provider.productDetails!.data!.brand!.name.toString(),
-                        style: subTitleStyle,
-                      ),
-                    ],
-                  ),
-                  buildSellingBuyingContainer(context, provider),
-                  const Text("বিস্তারিত",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w700,color: Colors.black54),),
-                  //Text(provider.productDetails!.data!.description.toString())
-                  Html(data: provider.productDetails!.data!.description.toString())
+                        Row(
+                          children: [
+                            const Text(
+                              "ব্রান্ডঃ ",
+                              style: TextStyle(
+                                  color: Colors.pink,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16),
+                            ),
+                            Text(
+                              provider.productDetails!.data!.brand!.name
+                                  .toString(),
+                              style: subTitleStyle,
+                            ),
+                          ],
+                        ),
+                        buildSellingBuyingContainer(context, provider),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 15),
+                              height: 40,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.deepPurple
+                              ),
+                              child: Center(child: Text("এটি কিনুন",style: TextStyle(color: Colors.white),)),
+                            )
+                          ],
+                        ),
+                        const Text(
+                          "বিস্তারিত",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54),
+                        ),
+                        //Text(provider.productDetails!.data!.description.toString())
+                        Html(
+                            data: provider.productDetails!.data!.description
+                                .toString()),
+                      ],
+                    ),
+                  )
                 ],
               ),
             )
-          ],
-        ),
-      ),
+          : Container(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    SpinKitThreeBounce(
+                      color: Colors.deepPurple,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text("Loading Data.......")
+                  ],
+                ),
+              ),
+            ),
     );
   }
 
-  Container buildSellingBuyingContainer(BuildContext context, ProductDetailsProvider provider) {
+  Container buildSellingBuyingContainer(
+      BuildContext context, ProductDetailsProvider provider) {
     return Container(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  height: 120,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.black12),
-                      color: Constant.secondaryColor),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "ক্রয়মূল্যঃ ",
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.pink),
-                          ),
-                          Text(
-                            provider
-                                .productDetails!.data!.charge!.currentCharge
-                                .toString(),
-                            style: titleStyle,
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "বিক্রয়মূল্যঃ ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.black87),
-                          ),
-                          Text(
-                            provider
-                                .productDetails!.data!.charge!.sellingPrice
-                                .toString(),
-                            style: titleStyle,
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Divider(
-                        height: 1,
-                        color: Colors.black87,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "লাভঃ ",
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.black87),
-                          ),
-                          Text(
-                            "50",
-                            style: titleStyle,
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                );
+      padding: const EdgeInsets.only(left: 15, right: 15),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      height: 120,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.black12),
+          color: Constant.secondaryColor),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "ক্রয়মূল্যঃ ",
+                style: const TextStyle(fontSize: 20, color: Colors.pink),
+              ),
+              Text(
+                provider.productDetails!.data!.charge!.currentCharge.toString(),
+                style: titleStyle,
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "বিক্রয়মূল্যঃ ",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+              Text(
+                provider.productDetails!.data!.charge!.sellingPrice.toString(),
+                style: titleStyle,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Divider(
+            height: 1,
+            color: Colors.black87,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "লাভঃ ",
+                style: TextStyle(fontSize: 16, color: Colors.black87),
+              ),
+              Text(
+                "50",
+                style: titleStyle,
+              )
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   AppBar buildAppBar(BuildContext context) {
