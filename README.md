@@ -1,6 +1,8 @@
 # qtec_work_demo
 
 A new Flutter application.
+![Screenshot_1653056749](https://user-images.githubusercontent.c![Screenshot_1653056768](https://user-images.githubusercontent.com/51967165/169555807-f0aeefb7-d187-40ff-8983-1e7a8a815b8a.png)
+om/51967165/169555793-159a4399-8975-4678-9e4f-a2e7606040f9.png)
 
 ## Getting Started
 
