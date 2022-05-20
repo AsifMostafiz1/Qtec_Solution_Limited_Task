@@ -7,8 +7,9 @@ import '../model/products.dart';
 class ProductServices {
 
   Future<ProductSearch?> getProducts(int pageNumber) async {
+
     String apiUrl =
-        "https://panel.supplyline.network/api/product/search-suggestions/?limit=50&offset=${pageNumber * 10}";
+        "https://panel.supplyline.network/api/product/search-suggestions/?limit=10&offset=${pageNumber * 10}";
     try {
       var response = await http.get(
         Uri.parse(apiUrl),
@@ -52,4 +53,5 @@ class ProductServices {
       rethrow;
     }
   }
+
 }

@@ -10,15 +10,22 @@ class ProductProvider extends ChangeNotifier{
   List<Results> resultList = [];
   List<Results> searchResultList = [];
 
-
-  int cartItemValue = 0;
   int page =0;
 
-  int getCartItem()=> cartItemValue;
+  int  getPageNumber ()=> page+1;
 
   pageIncrement(){
-    page++;
-    notifyListeners();
+    if(page<11){
+      page++;
+      notifyListeners();
+    }
+  }
+
+  pageDecrement(){
+    if(page>0){
+      page--;
+      notifyListeners();
+    }
   }
 
   getProduct()async{
@@ -39,14 +46,6 @@ class ProductProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  cartItemIncrement(){
-    cartItemValue++;
-    notifyListeners();
-  }
 
-  cartItemDecrement(){
-    cartItemValue--;
-    notifyListeners();
-  }
 
 }
