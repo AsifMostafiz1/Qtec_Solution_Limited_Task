@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:qtec_work_demo/constats.dart';
 import 'package:qtec_work_demo/provider/product_provider.dart';
 import 'package:qtec_work_demo/screen/details_page.dart';
-
-
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -15,14 +14,14 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    final provider = Provider.of<ProductProvider>(context,listen: false);
+    final provider = Provider.of<ProductProvider>(context, listen: false);
     provider.getProduct();
   }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ProductProvider>(context);
@@ -37,7 +36,7 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(
               height: 10,
             ),
-            Expanded(
+            provider.isLoading==false?Expanded(
               child: Container(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -48,8 +47,13 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DetailsPage(slagName: provider.searchResultList[index].slug.toString(),)));
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DetailsPage(
+                                  slagName: provider
+                                      .searchResultList[index].slug
+                                      .toString(),
+                                )));
                       },
                       child: Container(
                         child: Stack(
@@ -69,34 +73,52 @@ class _SearchPageState extends State<SearchPage> {
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: NetworkImage(provider
-                                                    .searchResultList[index].image
+                                                    .searchResultList[index]
+                                                    .image
                                                     .toString()))),
                                       ),
                                     ),
                                     Expanded(
                                       flex: 3,
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(provider
-                                              .searchResultList[index].productName.toString()),
+                                          Text(provider.searchResultList[index]
+                                              .productName
+                                              .toString()),
                                           Row(
                                             children: [
                                               Column(
                                                 children: [
-                                                  Text("ক্রয়ঃ " + provider.searchResultList[index].charge!
-                                                            .currentCharge.toString(),
+                                                  Text(
+                                                    "ক্রয়ঃ " +
+                                                        provider
+                                                            .searchResultList[
+                                                                index]
+                                                            .charge!
+                                                            .currentCharge
+                                                            .toString(),
                                                     style: const TextStyle(
                                                         color: Colors.pink,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         fontSize: 15),
                                                   ),
-                                                  Text("   বিক্রয়ঃ " + provider.searchResultList[index].charge!
-                                                            .sellingPrice.toString(),
+                                                  Text(
+                                                    "   বিক্রয়ঃ " +
+                                                        provider
+                                                            .searchResultList[
+                                                                index]
+                                                            .charge!
+                                                            .sellingPrice
+                                                            .toString(),
                                                     style: const TextStyle(
                                                         color: Colors.black54,
-                                                        fontWeight: FontWeight.w600,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                         fontSize: 15),
                                                   ),
                                                 ],
@@ -111,7 +133,8 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                             Positioned(
-                              left: MediaQuery.of(context).size.width * .25 - 25,
+                              left:
+                                  MediaQuery.of(context).size.width * .25 - 25,
                               bottom: 10,
                               child: Container(
                                 height: 40,
@@ -133,6 +156,24 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: provider.searchResultList.length,
                 ),
               ),
+            ):Expanded(
+              child: Container(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      SpinKitThreeBounce(
+                        color: Colors.deepPurple,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text("Loading Data.......")
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -142,30 +183,30 @@ class _SearchPageState extends State<SearchPage> {
 
   Container buildSearchBar(BuildContext context, ProductProvider provider) {
     return Container(
-            padding: const EdgeInsets.only(left: 20),
-            height: 45,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.black12),
-                color: Constant.secondaryColor),
-            child: TextFormField(
-              onChanged: (String value) {
-               provider.onChanged();
-              },
-              controller: provider.searchController,
-              decoration: const InputDecoration(
-                hintText: "Search Product here",
-                hintStyle: TextStyle(color: Colors.grey),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-              ),
-            ),
-          );
+      padding: const EdgeInsets.only(left: 20),
+      height: 45,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.black12),
+          color: Constant.secondaryColor),
+      child: TextFormField(
+        onChanged: (String value) {
+          provider.onChanged();
+        },
+        controller: provider.searchController,
+        decoration: const InputDecoration(
+          hintText: "Search Product here",
+          hintStyle: TextStyle(color: Colors.grey),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.transparent),
+          ),
+        ),
+      ),
+    );
   }
 
   AppBar buildAppBar() {

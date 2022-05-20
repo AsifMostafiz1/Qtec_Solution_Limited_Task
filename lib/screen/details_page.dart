@@ -1,17 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:qtec_work_demo/constats.dart';
 import 'package:qtec_work_demo/provider/product_details_provider.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:html/dom.dart' as dom;
+
 
 class DetailsPage extends StatefulWidget {
-  String slagName;
-  DetailsPage({Key? key, required this.slagName}) : super(key: key);
+  final String slagName;
+  const DetailsPage({Key? key, required this.slagName}) : super(key: key);
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -22,7 +21,6 @@ class _DetailsPageState extends State<DetailsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     getData();
   }
 
