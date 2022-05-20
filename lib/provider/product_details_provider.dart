@@ -6,6 +6,38 @@ import '../services/product_services.dart';
 class ProductDetailsProvider extends ChangeNotifier{
   ProductDetails? productDetails;
   bool isLoading = false;
+  bool showCartButtonStatus = false;
+
+  int cartItemValue = 0;
+
+
+
+  cartItemIncrement(){
+    if(cartItemValue<10){
+      cartItemValue++;
+      notifyListeners();
+    }
+  }
+
+  cartItemDecrement(){
+    if(cartItemValue>0){
+      cartItemValue--;
+      notifyListeners();
+    }
+  }
+
+
+  showCartButton(){
+    showCartButtonStatus = true;
+    notifyListeners();
+  }
+
+  resetCartButton(){
+    showCartButtonStatus = false;
+    cartItemValue = 0;
+    notifyListeners();
+  }
+
 
 
   getProductDetails(String slugName)async{

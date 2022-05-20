@@ -28,6 +28,7 @@ class _DetailsPageState extends State<DetailsPage> {
     final provider =
         Provider.of<ProductDetailsProvider>(context, listen: false);
     provider.getProductDetails(widget.slagName);
+    provider.resetCartButton();
   }
 
   @override
@@ -98,20 +99,74 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                         buildSellingBuyingContainer(context, provider),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 15),
+
+                            provider.showCartButtonStatus==false?Container():Container(
+                              padding: const EdgeInsets.all(5),
                               height: 40,
-                              width: 100,
+                              width: 120,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.deepPurple
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: const Color(0xffffcce4)
                               ),
-                              child: Center(child: Text("এটি কিনুন",style: TextStyle(color: Colors.white),)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  GestureDetector(
+                                    onTap: (){
+                                      provider.cartItemDecrement();
+
+                                    },
+                                    child: Container(
+                                      //padding: EdgeInsets.only(bottom: 20),
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: const Color(0xffffbfdd)
+                                      ),
+                                      child: const Icon(Icons.remove,color: Colors.white,),
+                                    ),
+                                  ),
+
+                                  Text(provider.cartItemValue.toString(),style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+
+                                  GestureDetector(
+                                    onTap: (){
+                                      provider.cartItemIncrement();
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                          color: Colors.deepPurple
+                                      ),
+                                      child: const Icon(Icons.add,color: Colors.white,),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: (){
+                                provider.showCartButton();
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 15),
+                                height: 40,
+                                width: 100,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.deepPurple
+                                ),
+                                child: Center(child: Text("এটি কিনুন",style: TextStyle(color: Colors.white),)),
+                              ),
                             )
                           ],
                         ),
+                        SizedBox(height: 10,),
                         const Text(
                           "বিস্তারিত",
                           style: TextStyle(
@@ -123,6 +178,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         Html(
                             data: provider.productDetails!.data!.description
                                 .toString()),
+                        SizedBox(height: 20,)
                       ],
                     ),
                   )
