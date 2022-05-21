@@ -158,25 +158,77 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            Positioned(
-                              left:
-                                  MediaQuery.of(context).size.width *
-                                          .25 -
-                                      25,
-                              bottom: 10,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(50),
-                                    color: const Color(0xff6210e1)),
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
+                            index!=provider.selectIndex?Positioned(
+                              left:MediaQuery.of(context).size.width*.25-25,
+                              bottom:10,
+                              child:GestureDetector(
+                                onTap:(){
+                                  provider.setIndex(index);
+                                },
+                                child: Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(50),
+                                      color: const Color(0xff6210e1)),
+                                  child: const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
-                            )
+                            ):Positioned(
+                              left:MediaQuery.of(context).size.width*.25-70,
+                              bottom:0,
+
+                                child: Container(
+                                  padding: const EdgeInsets.all(5),
+                                  height: 35,
+                                  width: 100,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: const Color(0xffffcce4)
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: (){
+                                         provider.cartItemDecrement();
+
+                                        },
+                                        child: Container(
+                                          //padding: EdgeInsets.only(bottom: 20),
+                                          height: 25,
+                                          width: 25,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(50),
+                                              color: const Color(0xffffbfdd)
+                                          ),
+                                          child: const Icon(Icons.remove,color: Colors.white,),
+                                        ),
+                                      ),
+
+                                      Text(provider.cartItemValue.toString(),style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+
+                                      GestureDetector(
+                                        onTap: (){
+                                          provider.cartItemIncrement();
+                                        },
+                                        child: Container(
+                                          height: 25,
+                                          width: 25,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(50),
+                                              color: Colors.deepPurple
+                                          ),
+                                          child: const Icon(Icons.add,color: Colors.white,),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),)
                           ],
                         ),
                       );

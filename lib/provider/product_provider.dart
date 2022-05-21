@@ -14,6 +14,31 @@ class ProductProvider extends ChangeNotifier{
 
   int  getPageNumber ()=> page+1;
 
+  int selectIndex=-1;
+
+  int cartItemValue = 0;
+
+
+
+  cartItemIncrement(){
+    if(cartItemValue<10){
+      cartItemValue++;
+      notifyListeners();
+    }
+  }
+
+  cartItemDecrement(){
+    if(cartItemValue>0){
+      cartItemValue--;
+      notifyListeners();
+    }
+  }
+
+  void setIndex(int index){
+    selectIndex=index;
+    notifyListeners();
+  }
+
   pageIncrement(){
     if(page<11){
       page++;
