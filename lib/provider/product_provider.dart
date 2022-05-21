@@ -20,6 +20,8 @@ class ProductProvider extends ChangeNotifier{
 
 
 
+
+
   cartItemIncrement(){
     if(cartItemValue<10){
       cartItemValue++;
@@ -32,6 +34,12 @@ class ProductProvider extends ChangeNotifier{
       cartItemValue--;
       notifyListeners();
     }
+  }
+
+
+  resetCartButton(){
+    cartItemValue = 0;
+    notifyListeners();
   }
 
   void setIndex(int index){

@@ -15,12 +15,15 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     final provider = Provider.of<ProductProvider>(context, listen: false);
     provider.getProduct();
+    provider.resetCartButton();
   }
   final RefreshController refreshController = RefreshController(initialRefresh: true);
 
@@ -81,8 +84,7 @@ class _SearchPageState extends State<SearchPage> {
                                       Expanded(
                                         flex: 4,
                                         child: Container(
-                                          margin:
-                                              const EdgeInsets.all(5),
+                                          margin: const EdgeInsets.only(top: 15),
                                           decoration: BoxDecoration(
                                               image: DecorationImage(
                                                   image: NetworkImage(
@@ -158,7 +160,19 @@ class _SearchPageState extends State<SearchPage> {
                                 ),
                               ),
                             ),
-                            index!=provider.selectIndex?Positioned(
+                            provider.searchResultList[index].stock!<10?Positioned(
+                              left: 10,
+                              top: 10,
+                              child: Container(
+                                height: 20,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: const Color(0xffffcce4)
+                                ),
+                                child: Center(child: Text("স্টক নাই",style: const TextStyle(fontSize: 10),),),
+                              ),
+                            ): index!=provider.selectIndex?Positioned(
                               left:MediaQuery.of(context).size.width*.25-25,
                               bottom:10,
                               child:GestureDetector(
