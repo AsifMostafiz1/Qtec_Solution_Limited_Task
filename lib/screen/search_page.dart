@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nimu_shimmer/nimu_shimmer.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qtec_work_demo/constats.dart';
@@ -170,7 +170,7 @@ class _SearchPageState extends State<SearchPage> {
                                   borderRadius: BorderRadius.circular(20),
                                   color: const Color(0xffffcce4)
                                 ),
-                                child: Center(child: Text("স্টক নাই",style: const TextStyle(fontSize: 10),),),
+                                child: const Center(child: Text("স্টক নাই",style: TextStyle(fontSize: 10),),),
                               ),
                             ): index!=provider.selectIndex?Positioned(
                               left:MediaQuery.of(context).size.width*.25-25,
@@ -251,24 +251,48 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 )
                 : Expanded(
-                    child: Container(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            SpinKitThreeBounce(
-                              color: Colors.deepPurple,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text("Loading Data.......")
-                          ],
-                        ),
-                      ),
+                child: GridView.builder(
+                    gridDelegate: const  SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 15,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 2 / 3,
+
                     ),
-                  ),
+                    itemBuilder: (context,index){
+                      return NimuShimmer(
+                        mainColor: Colors.white,
+
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
+
+
+                        ),
+                      );
+                    },itemCount: 10,)),
+            // Expanded(
+            //         child: Container(
+            //           child: Center(
+            //             child: Column(
+            //               mainAxisAlignment: MainAxisAlignment.center,
+            //               crossAxisAlignment: CrossAxisAlignment.center,
+            //               children: const [
+            //                 SpinKitThreeBounce(
+            //                   color: Colors.deepPurple,
+            //                 ),
+            //                 SizedBox(
+            //                   height: 20,
+            //                 ),
+            //                 Text("Loading Data.......")
+            //               ],
+            //             ),
+            //           ),
+            //         ),
+            //       ),
 
 
             Container(
